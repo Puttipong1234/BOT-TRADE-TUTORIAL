@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask , request
 import time
 from binance_connect import SIGNALS_BY_SYMBOLS
 import threading
@@ -87,25 +87,30 @@ def stop_app(START):
     return "ok"
 
 
-@app.route("/", methods=['POST'])
+@app.route("/", methods=['GET','POST'])
 def test_signals():
-    msg = request.data.decode("utf-8")
-
-    """
-    PYBOTT : EASY EMA: order
-    {{strategy.order.action}}
-    @ {{strategy.order.contracts}}
-    filled on {{ticker}}.
-    New strategy position is
-    {{strategy.position_size}}
-    """
-    #สรุปว่า BTCUSDT ขาย
-    #if symbol , signals
-        #PlaceSELL
-    #else
-        #PlaceBUY
     
-    return "This is buying signals"
+    if request.method == "POST":
+        msg = request.data.decode("utf-8")
+
+        """
+        PYBOTT : EASY EMA: order
+        {{strategy.order.action}}
+        @ {{strategy.order.contracts}}
+        filled on {{ticker}}.
+        New strategy position is
+        {{strategy.position_size}}
+        """
+        #สรุปว่า BTCUSDT ขาย
+        #if symbol , signals
+            #PlaceSELL
+        #else
+            #PlaceBUY
+        
+        return "This is buying signals"
+
+    else:
+        return "กรุณานำ Link ไปใส่ไว้ที่ Webhook Tradingview"
 
 @app.route("/<pairname>")
 def pair_signals(pairname):
