@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import talib
 import numpy as np
 
+from config import *
+
 #try:
     #import config_dev
 #except:
@@ -50,7 +52,7 @@ def PlaceSELL(symbol):
 
 
 def SIGNALS_BY_SYMBOLS(symbols):
-    klines = client.get_historical_klines(symbols,Client.KLINE_INTERVAL_1MINUTE,"4 minutes ago UTC")
+    klines = client.get_historical_klines(symbols,Client.KLINE_INTERVAL_1MINUTE,"100 minutes ago UTC")
 
     closes = [float(i[4]) for i in klines]
     closes = np.array(closes)
@@ -62,64 +64,84 @@ def SIGNALS_BY_SYMBOLS(symbols):
     ema12 = talib.EMA(closes,timeperiod=12)
     ema26 = talib.EMA(closes,timeperiod=26)
 
-    #rsi = talib.RSI(closes, timeperiod=14)
+    rsi = talib.RSI(closes, timeperiod=14)
 
     # figure => graph
-    fig = plt.figure()
-    axes = fig.add_axes([0.1,0.1,0.8,0.8])
-    axes.set_xlabel("1min time frame")
-    axes.set_ylabel("PRICE {}".format(symbols))
+    # fig = plt.figure()
+    # axes = fig.add_axes([0.1,0.1,0.8,0.8])
+    # axes.set_xlabel("1min time frame")
+    # axes.set_ylabel("PRICE {}".format(symbols))
 
-    plt.plot(closes,"--",color="grey",label="Price")
-    plt.plot(ema12,"-",color="green",label="ema12")
-    plt.plot(ema26,"-",color="red",label="ema26")
-    #plt.plot(rsi,"-",color="yellow",label="rsi")
-
-
-    #cross over / cross under
-
-    crossover = [] #buy
-    crossunder = [] #sell
+    # plt.plot(closes,"--",color="grey",label="Price")
+    # plt.plot(ema12,"-",color="green",label="ema12")
+    # plt.plot(ema26,"-",color="red",label="ema26")
+    # #plt.plot(rsi,"-",color="yellow",label="rsi")
 
 
-    for index,val in enumerate(zip(ema12,ema26)):
-        i = val[0] #[(1,2),(2,3)]
-        j = val[1]
-        #print(i," : ",j)
-        #crossover
-        if (ema12[index-1] < ema26[index-1]) and (i > j):
-            print("BULLISH HERE {}".format(symbols))
-            #คำนวณจำนวนเงินก่อน!!
-            #PlaceBUY()
-            # buy order here
-            crossover.append(i) #จุดที่มีการครอส cross
-        elif (ema12[index-1] > ema26[index-1]) and (i < j):
-            print("BEARISH HERE {}".format(symbols))
-            # sell order here
-            #PlaceSELL()
-            crossunder.append(i) #จุดที่มีการครอส cross
+    
+    # #cross over / cross under
 
-        else:
-            crossover.append(None)
-            crossunder.append(None)
-            #print("NO SIGNALS FOR {}".format(symbols))
+    # crossover = [] #buy
+    # crossunder = [] #sell
+
+
+    # for index,val in enumerate(zip(ema12,ema26)):
+    #     i = val[0] #[(1,2),(2,3)]
+    #     j = val[1]
+    #     #print(i," : ",j)
+    #     #crossover
+    #     if (ema12[index-1] < ema26[index-1]) and (i > j):
+    #         print("BULLISH HERE {}".format(symbols))
+    #         #คำนวณจำนวนเงินก่อน!!
+    #         #PlaceBUY()
+    #         # buy order here
+    #         crossover.append(i) #จุดที่มีการครอส cross
+    #     elif (ema12[index-1] > ema26[index-1]) and (i < j):
+    #         print("BEARISH HERE {}".format(symbols))
+    #         # sell order here
+    #         #PlaceSELL()
+    #         crossunder.append(i) #จุดที่มีการครอส cross
+
+    #     else:
+    #         crossover.append(None)
+    #         crossunder.append(None)
+    #         #print("NO SIGNALS FOR {}".format(symbols))
         
         
-    crossover = np.array(crossover)
-    crossunder = np.array(crossunder)
+    # crossover = np.array(crossover)
+    # crossunder = np.array(crossunder)
 
 
-    plt.plot(crossover,"x",color="green",label="BULLISH")
-    plt.plot(crossunder,"x",color="red",label="BEARISH")
+    # plt.plot(crossover,"x",color="green",label="BULLISH")
+    # plt.plot(crossunder,"x",color="red",label="BEARISH")
 
-    plt.legend(loc="upper left")
-    #plt.show()
+    # plt.legend(loc="upper left")
+    # plt.show()
+    
+    
+    
+    #Signals alertBUY
+    BUY = (ema12[-2] < ema26[-2]) and (ema12[-1] > ema12[-1]) #bullish cross
+    SELL = (ema12[-2] > ema26[-2]) and (ema12[-1] < ema12[-1]) #bearish cross
+    
+    Oversold = rsi[-1] < 30
+    Overbought = rsi[-1] > 70
+    
+    if Oversold: print("{} OVERSOLD RSI < 30".format(symbols))
+    elif Overbought: print("{} OVERBOUGHT RSI > 70".format(symbols))
+    else: print("{} MIDDLE 30 < RSI < 70".format(symbols))
+    
+    if BUY: return "BUY"
+    elif SELL: return "SELL"
+    else: return "NONE"
+        
 
 if __name__ == '__main__':
     #PlaceBUY(amount=200,symbol="DOGEUSDT")
     #PlaceSELL(symbol="DOGEUSDT")
 
-
+    r = SIGNALS_BY_SYMBOLS("BTCUSDT")
+    print(r)
 
 
 

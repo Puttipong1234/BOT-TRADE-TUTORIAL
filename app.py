@@ -1,19 +1,13 @@
 from flask import Flask
-import schedule
 import time
 from binance_connect import SIGNALS_BY_SYMBOLS
 
+try:
+    from config import *
+except:
+    from config_prod import *
+
 app = Flask(__name__)
-
-
-#Abscehduler
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
-
-executors = {
-    'default': ThreadPoolExecutor(16),
-    'processpool': ProcessPoolExecutor(4)
-}
 
 def job():
     print("CHECKING FOR SIGNALS PLEASE WAITS")
@@ -21,24 +15,30 @@ def job():
     coin_list = ["BTCUSDT","ETHUSDT","BCHUSDT","LTCUSDT","DOGEUSDT","DOTUSDT","ADAUSDT","BNBUSDT"]
     for coin in coin_list:
         print(coin)
-        SIGNALS_BY_SYMBOLS(coin)
+        r = SIGNALS_BY_SYMBOLS(coin)
+        if r == "BUY":
+            print("BUY NOW")
+        
+        elif r == "SELL":
+            print("SELL NOW")
+        
+        else:
+            print("NO SIGNALS")
 
-sched = BackgroundScheduler(timezone='Asia/Singapore', executors=executors)
 
-#Abscehduler
 
 @app.route("/", methods=['POST'])
 def test_signals():
     msg = request.data.decode("utf-8")
 
-"""
-PYBOTT : EASY EMA: order
-{{strategy.order.action}}
-@ {{strategy.order.contracts}}
-filled on {{ticker}}.
-New strategy position is
-{{strategy.position_size}}
-"""
+    """
+    PYBOTT : EASY EMA: order
+    {{strategy.order.action}}
+    @ {{strategy.order.contracts}}
+    filled on {{ticker}}.
+    New strategy position is
+    {{strategy.position_size}}
+    """
     #สรุปว่า BTCUSDT ขาย
     #if symbol , signals
         #PlaceSELL
