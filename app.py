@@ -121,31 +121,8 @@ def pair_signals(pairname):
     return "This is {} buying signals".format(pairname)
 
 if __name__ == '__main__':
-    #app.run(debug=True)
     app.run()
     
-    # input("PRESS ENTER TO RUN BOT")
-    # SM = SIGNALS_MORNITORING()
-    # SM_t = threading.Thread(target=SM.run,daemon=True)
-    # SM_t.start()
-    # input("PRESS ENTER TO STOP BOT")
-    # SM.stop()
-    # SM_t.join()
-    # #sched.add_job(job, 'interval', minutes=1, id='SIGNALS_JOBS')
-    # #schedule.every(10).seconds.do(job)
-    # while True:
-    #     print("=======SCANNOW=======")
-    #     job()
-    
-    #     time.sleep(60)
-    #     print("=====================")
-    #     #schedule.run_pending()
-    #     #if input("PRESS ENTER TO EXIT"):
-    #     #    sched.remove_job('SIGNALS_JOBS')
-    #     #    sched.shutdown()
-    #     #   break
-
-    # print("THANK FOR YOUR KIND ATTENDTION")
         
         
 
