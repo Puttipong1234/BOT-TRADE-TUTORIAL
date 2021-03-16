@@ -10,7 +10,6 @@ cryptography==3.4.6
 cycler==0.10.0
 dateparser==1.0.0
 Flask==1.1.2
-Flask-Threads==0.0.1a0
 future==0.18.2
 gunicorn==20.0.4
 hyperlink==21.0.0
@@ -27,11 +26,8 @@ Pillow==8.1.2
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
-pyinstaller==4.2
-pyinstaller-hooks-contrib==2021.1
 pyOpenSSL==20.0.1
 pyparsing==2.4.7
-PySimpleGUI==4.37.0
 python-binance==0.7.9
 python-dateutil==2.8.1
 pytz==2021.1
@@ -40,8 +36,6 @@ regex==2020.11.13
 requests==2.25.1
 service-identity==18.1.0
 six==1.15.0
-Twisted==21.2.0
-twisted-iocpsupport==1.0.1
 txaio==21.2.1
 tzlocal==2.1
 ujson==4.0.2
