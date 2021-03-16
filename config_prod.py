@@ -1,3 +1,5 @@
 # environment variable ของเครื่องนั้นๆ
-api_key = "YOUR API KEY"
-api_secret = "YOUR SECRET"
+import os
+
+api_key = os.getenv("api_key")
+api_secret = os.getenv("api_secret")
