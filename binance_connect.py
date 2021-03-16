@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 import talib
 import numpy as np
 
-from config import *
+try:
+    from config import *
+except:
+    from config_prod import *
 
 #try:
     #import config_dev
