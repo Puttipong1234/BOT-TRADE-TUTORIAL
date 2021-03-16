@@ -18,14 +18,14 @@ app = Flask(__name__)
 
 run = True
 
-def worker():
+# def worker():
     
-    while run:
-        print(run)
-        print("=======SCANNOW=======")
-        job()
-        time.sleep(10)
-        print("=====================")
+#     while run:
+#         print(run)
+#         print("=======SCANNOW=======")
+#         job()
+#         time.sleep(10)
+#         print("=====================")
 
 class SIGNALS_MORNITORING(threading.Thread):
     
@@ -50,6 +50,7 @@ class SIGNALS_MORNITORING(threading.Thread):
                 print("NO SIGNALS")
     
     def run(self):
+        print(self.need_to_break)
         while not self.need_to_break:
             print("=======SCANNOW=======")
             self.job()
@@ -60,6 +61,10 @@ class SIGNALS_MORNITORING(threading.Thread):
         print("Stop Signals")
         self.need_to_break = True
     
+    def resume(self,command):
+        print("Resume Signals")
+        self.need_to_break = command
+    
     
     
     
@@ -68,21 +73,17 @@ class SIGNALS_MORNITORING(threading.Thread):
 
 SM = SIGNALS_MORNITORING()
 SM_t = threading.Thread(target=SM.run,daemon=True)
+SM_t.start()
 
 @app.route("/<START>", methods=['POST'])
 def stop_app(START):
     if START=="START":
-        try:
-            SM_t.start()
-        except:
-            return "PLEASE STOP BEFORE START"
-    
+        SM.resume(command=False)
+        SM.run()
+        # SM_t.start()
     else:
-        try:
-            SM.stop()
-            SM_t.join()
-        except:
-            return "PLEASE START BEFORE STOP"
+        SM.stop()
+
     
     return "ok"
 
@@ -122,8 +123,3 @@ def pair_signals(pairname):
 
 if __name__ == '__main__':
     app.run()
-    
-        
-        
-
-    

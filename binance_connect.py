@@ -124,8 +124,8 @@ def SIGNALS_BY_SYMBOLS(symbols):
     
     
     #Signals alertBUY
-    BUY = (ema12[-2] < ema26[-2]) and (ema12[-1] > ema12[-1]) #bullish cross
-    SELL = (ema12[-2] > ema26[-2]) and (ema12[-1] < ema12[-1]) #bearish cross
+    BUY = (ema12[-2] < ema26[-2]) and (ema12[-1] > ema26[-1]) #bullish cross
+    SELL = (ema12[-2] > ema26[-2]) and (ema12[-1] < ema26[-1]) #bearish cross
     
     Oversold = rsi[-1] < 30
     Overbought = rsi[-1] > 70
