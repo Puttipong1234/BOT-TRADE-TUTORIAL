@@ -134,8 +134,14 @@ def SIGNALS_BY_SYMBOLS(symbols):
     elif Overbought: print("{} OVERBOUGHT RSI > 70".format(symbols))
     else: print("{} MIDDLE 30 < RSI < 70".format(symbols))
     
-    if BUY: return "BUY"
-    elif SELL: return "SELL"
+    
+    price = closes[-1]
+    usd = 15
+    
+    amount = float(usd/price)
+    
+    if BUY: return PlaceBUY(amount=amount,symbol=symbols)
+    elif SELL: return PlaceSELL(symbol=symbols)
     else: return "NONE"
         
 

@@ -73,18 +73,19 @@ class SIGNALS_MORNITORING(threading.Thread):
 
 SM = SIGNALS_MORNITORING()
 SM_t = threading.Thread(target=SM.run,daemon=True)
-SM_t.start()
 
 @app.route("/<START>", methods=['POST'])
 def stop_app(START):
     if START=="START":
-        SM.resume(command=False)
-        SM.run()
+        try:
+            SM_t.start()
+        except:
+            SM.resume(command=False)
+            SM.run()
         # SM_t.start()
     else:
         SM.stop()
 
-    
     return "ok"
 
 
