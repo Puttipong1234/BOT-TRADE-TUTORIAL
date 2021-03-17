@@ -40,10 +40,10 @@ if __name__ == '__main__':
             pass
 
         if event == 'STARTTRADING':
-            r = requests.post(url="http://127.0.0.1:5000/START")
+            requests.post(url="https://bottrade-tutorial.herokuapp.com/START")
         
         if event == 'STOPTRADING':
-            r = requests.post(url="http://127.0.0.1:5000/STOP")
+            requests.post(url="https://bottrade-tutorial.herokuapp.com/STOP")
             
             
     window.close()

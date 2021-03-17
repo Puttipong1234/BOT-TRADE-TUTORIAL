@@ -51,11 +51,19 @@ class SIGNALS_MORNITORING(threading.Thread):
     
     def run(self):
         print(self.need_to_break)
-        while not self.need_to_break:
-            print("=======SCANNOW=======")
-            self.job()
-            time.sleep(10)
-            print("=====================")
+        while True:
+            if not self.need_to_break:
+                print("=======SCANNOW=======")
+                self.job()
+                time.sleep(10)
+                print("=====================")
+            
+            elif not self.need_to_break:
+                print("BOT STOP NOW")
+            
+            else:
+                print("BOT KILLED")
+                break
     
     def stop(self):
         print("Stop Signals")
